@@ -5,7 +5,7 @@ var council_input;
 var initial_filter;
 
 
-var small_chart_height = 150;
+var small_chart_height = 300;
 
 var getkeys;
 
@@ -133,12 +133,13 @@ council_input.onclick=function(e){e.target.select()}
     .x(d3.scale.ordinal())
     .xUnits(dc.units.ordinal)
     .y(d3.scale.linear().domain(yc_domain()))
-    .transitionDuration(200)
-    .height(100)
+    .transitionDuration(300)
+    .height(200)
     .colors(d3.scale.ordinal().range(["#1fb504","#eb4848"]))
     .colorAccessor(function(d){return d.value > 0})
+    .renderHorizontalGridLines(true)
+    .margins({top: 10, right: 50, bottom: 50, left: 120})//default: {top: 10, right: 50, bottom: 30, left: 30}
     .elasticX(false)
-    .elasticY(false)
     .centerBar(false)
     .brushOn(false)
     .on('pretransition', function(chart){
@@ -146,6 +147,11 @@ council_input.onclick=function(e){e.target.select()}
       chart.y(d3.scale.linear().domain(extent))
       })
   
+    year_chart.on("postRedraw.grid",
+      function(){d3.select("g.grid-line").selectAll("line")
+      .classed("zero",function(d){return d==0})
+                })
+    
     year_chart.on('postRender.year', function(chart){
       chart.filter(initial_filter);
       dc.redrawAll();
@@ -153,7 +159,7 @@ council_input.onclick=function(e){e.target.select()}
       })
   
   year_chart.xAxis().ticks(4).tickFormat(d3.format('d'));
-  year_chart.yAxis().ticks(2).tickFormat(d3.format('s'))
+  year_chart.yAxis().ticks(2).tickFormat(axis_dollar_format)
 //
 //  
   stream = ndx.dimension(function(d) {return d.stream});
@@ -162,13 +168,15 @@ council_input.onclick=function(e){e.target.select()}
   var streamcharts = generateSplitRowChart(stream, stream_group, "#income", "#expenditure", "#legend_reset", function(d) {return types.income.indexOf(d) > -1});
    
   streamcharts.chart1
-    .height(200)
+    .height(400)
     .colors(d3.scale.ordinal().range(["#1fb504"]))
+    .margins({top: 10, right: 50, bottom: 50, left: 100})
   
   
   streamcharts.chart2
-    .height(200)
+    .height(400)
     .colors(d3.scale.ordinal().range(["#eb4848"]))
+    .margins({top: 10, right: 50, bottom: 50, left: 100})
    
   
   resetStream = mergeFilters([streamcharts.chart1, streamcharts.chart2],"#LegendReset").reset;

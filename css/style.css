@@ -1,53 +1,35 @@
 .dc-chart g.row text {
   fill:black;
+  font-size: 2.5em
+}
+
+.dc-chart g.tick text {
+  fill:black;
+  font-size: 2.5em
 }
 
 .dc-chart g.row text.row.dim {
   fill:grey;
 }
 
-.dc-chart .pie-slice {
-  fill:black;
-}
-
-.dc-chart .pie-slice path {
-    stroke: white;
-}
-
-.dc-chart .selected path {
-    stroke-width: 0;
-    stroke: #ccc;
-    fill-opacity: 1;
+legend {font-size: 4em
 }
 
 .dc-chart legend {
-  font-size: 1em;
-  margin-bottom: 2px;
+  font-size: 3em;
+  margin-bottom: 5px;
   line-height: 20px;
-  margin-top:10px;
-  border-bottom: 0px;
+  margin-top:20px;
+  border-bottom: 2px;
 }
+
+input{
+  font-size: 3em
+}
+
 
 .subtitle {
   font-size: 0.7em;
-}
-
-#map svg {
-  background-color:#efefef;
-}
-
-#district_map g.deselected path  {
-  stroke:white;
-  stroke-width:1px;
-}
-
-#region_map g.deselected path  {
-  stroke:white;
-  stroke-width:1px;
-}
-
-.just_a_number {
-  font-size: 1.4em;
 }
 
 .legend.dc-chart g.row rect {
@@ -80,12 +62,14 @@
   margin-right: 30px;
 }
 
+/*
 .dc-chart {
   background-color: #fbfbfb;
   border: 5px;
   border-style: solid;
   border-color: white;
 }
+*/
 
 
 /*#year */
@@ -95,6 +79,11 @@ rect.deselected{
 
 .dc-chart .reset {
     font-size: 1em;
+}
+
+
+.btn-primary{
+  font-size: 0.8em;
 }
 
 .reset btn btn-primary{
@@ -116,8 +105,13 @@ div.awesomplete{
 input{
   width: 100%
 }
+
+.dc-chart .grid-line line.zero {
+  stroke:black;
+  opacity: 1
+}
+
 mark {
   background-color: fuchsia;
   text-decoration: underline
-  
 }

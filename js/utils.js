@@ -1,21 +1,4 @@
-//-----------------Colours-------------------------------
-
-// we provide a colour map for all of our charts to use. (Blair likes the default, although it needs its greys sorted as they tend to the invisible) There's a useful colour map generator at  http://tools.medialab.sciences-po.fr/iwanthue/, althought it does tend toward the 70's if your're not careful.
-
-// Government accessability standards also require adequate leb=vels of contrast between text and background, which when the background is white/grey OR a coloured bar necessitates the use of relatively pale or unsaturated colors.    
-
-var our_colors =
-
-["#1fb504",
-"#eb4848"]
-
-var default_colors = d3.scale.ordinal().range(our_colors) 
-
-// Choropleths and other maps require a colourscale. Because of the way choropleth .colorAccessor and .colourCalculator work with missing data, we need to also specify a colour for zero/missing, and a colourscale. map_zero_colour sholud be a little lighter (or whatever means "smaller" onyout chart) than the bottom value in the colourscale.
-
-var map_zero_colour = "#f0eaca"
-var colourscale = d3.scale.linear().range(["#ebdfa4","#907808"]) // grass green(for the maps)
- 
+var default_colors = d3.scale.ordinal() 
 // -------------Date Formats-----------------------------
 
 var dateFormat = d3.time.format('%d/%m/%Y')
@@ -25,17 +8,6 @@ var display_dateFormat = d3.time.format('%Y-%m-%d')
 function dim_zero_rows(chart) {
   chart.selectAll('text.row').classed('hidden',function(d){return (d.value < 0.1)});
 }
-
-function cleanChartData(precision, orderedBy) {
-  return function(data){
-    results = _.map(data.all(), function(a) {return {key:a.key,value:Math.abs(Math.round(a.value/precision))*precision}});
-    if (orderedBy) {
-      results = _.sortBy(results, orderedBy)
-    }
-    return results
-  }
-}
-
 
 //-------------------axis and title formats ---------------------
 var format_s = d3.format('s') //SI prefix
@@ -48,12 +20,12 @@ var integer_format = function(d){if (d==0) {return format_d(d)}
 
 var title_integer_format =d3.format(',') 
 
-var format_highdollar = d3.format('$0.3s') //values over $100
-var format_highdollar_axis = d3.format('$s')
+var format_highdollar = function(d){return(d3.format('$0.3s')(d).replace("G","B"))} //values over $100
+var format_highdollar_axis = function(d){return d3.format('$s')(d).replace("G","B")}
 var format_10dollar   = d3.format('$0.2s') //values between $10 and $100
 var format_lowdollar = d3.format('$0.2f')  // values less than $10
 
-var axis_dollar_format = function(d){if (d != 0 && d <1) {return format_lowdollar(d)} 
+var axis_dollar_format = function(d){if (d != 0 && Math.abs(d) <1) {return format_lowdollar(d)} 
                                      else { return format_highdollar_axis(d)}}
 
 var title_dollar_format = function(d){if(d < 10){return format_lowdollar(d)} 
