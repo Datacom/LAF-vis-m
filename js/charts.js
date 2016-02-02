@@ -90,30 +90,31 @@ function showCharts(err, data, dictionary) {
   
 council_list = _.keys(_dictionary)
 
-council_input = document.getElementById("council_list");
-new Awesomplete(council_input, {
-    list: council_list    
-});
 
-council_input.value = council_list[0]
-  
-council_input.addEventListener("awesomplete-selectcomplete", function(e){
-  // User made a selection from dropdown. 
-  // This is fired after the selection is applied 
-    dc.filterAll()
-    _.map(_.pluck(year_group.all(),'key'),function(d){year_chart.filter(d)})
-    ndx.remove()
+council_dropdown = d3.select("datalist#council_list")
+
+council_dropdown.selectAll("option")
+  .data(council_list).enter().append("option")
+  .attr("value",function(d){return d})
+
+council_input = d3.select("#councils").on("input",function(){
+  //console.log(this.value) 
+   if(_dictionary[this.value]){
+      dc.filterAll()
+      _.map(_.pluck(year_group.all(),'key'),function(d){year_chart.filter(d)})
+      ndx.remove()  
+      
+     
     
-    file = _dictionary[ e.target.value].file;
-    _data = [];
-    queue()
-      .defer(d3.csv, 'data/' + file, cleanup)
-      .await(newData(ndx,year_chart))
-}, false);
-  
-council_input.onclick=function(e){e.target.select()}  
+        file = _dictionary[this.value].file;
+        _data = [];
+        queue()
+          .defer(d3.csv, 'data/' + file, cleanup)
+          .await(newData(ndx,year_chart))
+  }
+})
 
-  
+//council_input.onclick=function(e){e.target.select()}  
   
 //---------------------------ORDINARY CHARTS --------------------------------------
   year = ndx.dimension(function(d) {return d.year});
@@ -134,7 +135,7 @@ council_input.onclick=function(e){e.target.select()}
     .xUnits(dc.units.ordinal)
     .y(d3.scale.linear().domain(yc_domain()))
     .transitionDuration(300)
-    .height(200)
+    .height(250)
     .colors(d3.scale.ordinal().range(["#1fb504","#eb4848"]))
     .colorAccessor(function(d){return d.value > 0})
     .renderHorizontalGridLines(true)
