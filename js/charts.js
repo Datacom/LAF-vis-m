@@ -100,21 +100,18 @@ council_dropdown.selectAll("option")
 council_input = d3.select("#councils").on("input",function(){
   //console.log(this.value) 
    if(_dictionary[this.value]){
-      dc.filterAll()
-      _.map(_.pluck(year_group.all(),'key'),function(d){year_chart.filter(d)})
-      ndx.remove()  
-      
-     
-    
+        dc.filterAll()
+        _.map(_.pluck(year_group.all(),'key'),function(d){year_chart.filter(d)})
+        ndx.remove()  
         file = _dictionary[this.value].file;
         _data = [];
         queue()
           .defer(d3.csv, 'data/' + file, cleanup)
           .await(newData(ndx,year_chart))
-  }
+        }
 })
 
-//council_input.onclick=function(e){e.target.select()}  
+  council_input.on("click",function(){this.select()})  
   
 //---------------------------ORDINARY CHARTS --------------------------------------
   year = ndx.dimension(function(d) {return d.year});
