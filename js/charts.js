@@ -138,7 +138,7 @@ council_input.onclick=function(e){e.target.select()}
     .colors(d3.scale.ordinal().range(["#1fb504","#eb4848"]))
     .colorAccessor(function(d){return d.value > 0})
     .renderHorizontalGridLines(true)
-    .margins({top: 10, right: 50, bottom: 50, left: 120})//default: {top: 10, right: 50, bottom: 30, left: 30}
+    .margins({top: 20, right: 50, bottom: 50, left: 120})//default: {top: 10, right: 50, bottom: 30, left: 30}
     .elasticX(false)
     .centerBar(false)
     .brushOn(false)
@@ -170,13 +170,13 @@ council_input.onclick=function(e){e.target.select()}
   streamcharts.chart1
     .height(400)
     .colors(d3.scale.ordinal().range(["#1fb504"]))
-    .margins({top: 10, right: 50, bottom: 50, left: 100})
+    .margins({top: 20, right: 50, bottom: 50, left: 100})
   
   
   streamcharts.chart2
     .height(400)
     .colors(d3.scale.ordinal().range(["#eb4848"]))
-    .margins({top: 10, right: 50, bottom: 50, left: 100})
+    .margins({top: 20, right: 50, bottom: 50, left: 100})
    
   
   resetStream = mergeFilters([streamcharts.chart1, streamcharts.chart2],"#LegendReset").reset;
