@@ -111,7 +111,11 @@ council_input = d3.select("#councils").on("input",function(){
         }
 })
 
-  council_input.on("click",function(){this.select()})  
+  council_input.on("click.input",function(){ 
+    if (this.selectionStart == this.selectionEnd) {
+      this.select();
+    }
+  })  
   
 //---------------------------ORDINARY CHARTS --------------------------------------
   year = ndx.dimension(function(d) {return d.year});
@@ -136,11 +140,11 @@ council_input = d3.select("#councils").on("input",function(){
     .colors(d3.scale.ordinal().range(["#1fb504","#eb4848"]))
     .colorAccessor(function(d){return d.value > 0})
     .renderHorizontalGridLines(true)
-    .margins({top: 20, right: 50, bottom: 50, left: 120})//default: {top: 10, right: 50, bottom: 30, left: 30}
+    .margins({top: 20, right: 50, bottom: 50, left: 125})//default: {top: 10, right: 50, bottom: 30, left: 30}
     .elasticX(false)
     .centerBar(false)
     .brushOn(false)
-    .on('pretransition', function(chart){
+    .on('pretransition.elasticY', function(chart){
       extent = yc_domain()
       chart.y(d3.scale.linear().domain(extent))
       })
@@ -149,9 +153,12 @@ council_input = d3.select("#councils").on("input",function(){
       function(){d3.select("g.grid-line").selectAll("line")
       .classed("zero",function(d){return d==0})
                 })
+    year_chart.on("preRender.filter",function(chart){
+      chart.filter(initial_filter)
+    })
     
     year_chart.on('postRender.year', function(chart){
-      chart.filter(initial_filter);
+      //chart.filter(initial_filter);
       dc.redrawAll();
       add_yearclick(chart)
       })
